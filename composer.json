@@ -21,7 +21,10 @@
         "zircote/swagger-php": "4.x-dev",
         "guzzlehttp/guzzle": "7.9.x-dev",
         "symfony/serializer": "6.2.*",
-        "symfony/property-access": "6.2.*"
+        "symfony/property-access": "6.2.*",
+        "symfony/twig-bundle": "6.2.*",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/twig": "^2.12|^3.0"
     },
     "license": "MIT",
     "autoload": {

@@ -14,7 +14,7 @@ class Geometry
     #[ORM\Column(type: Types::STRING, nullable: false, enumType: GeometryType::class)]
     private GeometryType $type;
 
-    #[ORM\Column(type: Types::SIMPLE_ARRAY)]
+    #[ORM\Column(type: Types::JSON)]
     private array $coordinates;
 
     /**

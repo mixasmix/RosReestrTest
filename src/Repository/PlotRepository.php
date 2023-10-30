@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Plot;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,13 +22,32 @@ class PlotRepository extends ServiceEntityRepository
         parent::__construct($registry, Plot::class);
     }
 
-    public function save(Plot $entity, bool $flush = false): void
+    /**
+     * @param array<string> $plotIds
+     *
+     * @return array<Plot>
+     */
+    public function getByIds(array $plotIds): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.plotId IN (:plotIds)')
+            ->andWhere('p.createdAt <= :date')
+            ->setParameters([
+                'plotIds' => $plotIds,
+                'date' => new DateTimeImmutable('-1 hour'),
+            ])->getQuery()
+            ->getResult();
+    }
+
+    public function save(Plot $entity, bool $flush = false): Plot
     {
         $this->getEntityManager()->persist($entity);
 
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+
+        return $entity;
     }
 
     public function remove(Plot $entity, bool $flush = false): void
@@ -38,29 +58,4 @@ class PlotRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
-//    /**
-//     * @return Plot[] Returns an array of Plot objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Plot
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

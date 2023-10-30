@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon"
+            href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {% block stylesheets %}
+    {% endblock %}
+
+    {% block javascripts %}
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+    <form action="/">
+        <label for="plot_ids">Кадастровые номера</label>
+        <br>
+        <input type="text" name="plot_ids" id="plot_ids"
+                placeholder="введите кадастровые номера через запятую">
+        <br>
+        <input type="submit" value="Отправить">
+    </form>
+    {% if plots is defined and plots is not empty %}
+        <br>
+        <hr>
+        <table>
+            <tr>
+                <th>Идентификатор</th>
+                <th>Адрес</th>
+                <th>Цена</th>
+            </tr>
+            {% for plot in plots %}
+                <tr>
+                    <td>{{ plot.plotId }}</td>
+                    <td>{{ plot.attrs.plotAddress }}</td>
+                    <td>{{ plot.attrs.plotPrice }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}
+</body>
+</html>

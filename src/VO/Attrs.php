@@ -6,7 +6,6 @@ namespace App\VO;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Embeddable]
 class Attrs
@@ -92,7 +91,7 @@ class Attrs
         return $this->plotArea;
     }
 
-    public function getPlotPrice(): int
+    public function getPlotPrice(): float
     {
         return $this->plotPrice;
     }

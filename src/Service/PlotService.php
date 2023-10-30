@@ -5,16 +5,16 @@ declare(strict_types = 1);
 namespace App\Service;
 
 use App\Entity\Plot;
+use App\Repository\PlotRepository;
 use App\VO\Attrs;
 use App\VO\Coordinates;
 use App\VO\Extent;
-use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 
 class PlotService
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
+        private readonly PlotRepository $plotRepository,
     ) {
     }
 
@@ -29,29 +29,16 @@ class PlotService
         Coordinates $center,
         Coordinates $spatial,
     ): Plot {
-        $this->entityManager->beginTransaction();
-
-        try {
-            $plot = new Plot(
+        return $this->plotRepository->save(
+            new Plot(
                 plotId: $plotId,
                 number: $number,
                 attrs: $attrs,
                 extent: $extent,
                 center: $center,
                 spatial: $spatial,
-            );
-
-            $this->entityManager->persist($plot);
-
-            $this->entityManager->flush();
-        } catch (Exception $exception) {
-            $this->entityManager->rollback();
-
-            throw $exception;
-        }
-
-        $this->entityManager->commit();
-
-        return $plot;
+            ),
+            true
+        );
     }
 }

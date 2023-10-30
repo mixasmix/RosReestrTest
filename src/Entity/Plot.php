@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\PlotRepository;
 use App\VO\Attrs;
-use App\VO\Center;
 use App\VO\Coordinates;
 use App\VO\Extent;
 use DateTimeImmutable;

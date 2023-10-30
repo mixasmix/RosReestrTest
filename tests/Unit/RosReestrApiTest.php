@@ -9,11 +9,13 @@ use App\Service\External\RosReestrApi;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class RosReestrApiTest extends KernelTestCase
 {
-    private $service;
-    private $container;
+    private RosReestrApi $service;
+    private ContainerInterface|Container $container;
 
     protected function setUp(): void
     {
@@ -38,7 +40,12 @@ class RosReestrApiTest extends KernelTestCase
 
         self::assertIsArray($result);
 
-        self::assertIsObject(current($result));
+        /** @var $object PlotData */
+        $object = current($result);
+
+        self::assertIsObject($object);
+
+        self::assertEquals('69:27:22:1306', $object->id);
     }
 
     private function getMockData(): array
